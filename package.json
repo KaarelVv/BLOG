@@ -1,0 +1,22 @@
+{
+  "name": "blog-monorepo",
+  "private": true,
+  "workspaces": [
+    "client",
+    "posts",
+    "comments",
+    "query",
+    "event-bus",
+    "moderation"
+  ],
+  "scripts": {
+    "dev:posts": "npm run dev --workspace posts",
+    "dev:comments": "npm run dev --workspace comments",
+    "dev:query": "npm run dev --workspace query",
+    "dev:event-bus": "npm run dev --workspace event-bus",
+    "dev:moderation": "npm run dev --workspace moderation"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
