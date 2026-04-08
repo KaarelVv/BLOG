@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { axios } from "@bundled-es-modules/axios";
+import axios from "axios";
 
-function CommentCreate({ postId}) {
+function CommentCreate({ postId, onCommentCreate }) {
     const [content, setContent] = useState("");
+    const [submitError, setSubmitError] = useState("");
 
     const onChange = (event) => {
         setContent(event.target.value);
+        if (submitError) {
+            setSubmitError("");
+        }
     };
 
     const onSubmit = async (event) => {
@@ -17,11 +21,14 @@ function CommentCreate({ postId}) {
         }
 
         try {
-            const response = await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+            await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
                 content: trimmedContent,
             });
             setContent("");
+            setSubmitError("");
+            onCommentCreate?.();
         } catch (error) {
+            setSubmitError("Unable to submit comment. Check that the comments service is running.");
             console.error("Failed to create comment", error);
         }
     };
@@ -31,12 +38,15 @@ function CommentCreate({ postId}) {
             <div className="form-group">
                 <label>New Comment</label>
                 <input
-                   className="form-control"
+                    className="form-control"
+                    type="text"
+                    required
                     value={content}
                     onChange={onChange}
                 />
             </div>
-            <button className="btn btn-primary">Submit</button>
+            {submitError ? <p className="text-danger mt-2 mb-0">{submitError}</p> : null}
+            <button className="btn btn-primary mt-2" type="submit">Submit</button>
         </form>
     );
 }
