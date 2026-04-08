@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { axios } from "@bundled-es-modules/axios";
+import axios from "axios";
 
 function PostCreate({ onPostCreate }) {
     const [title, setTitle] = useState("");
